@@ -1,0 +1,65 @@
+<div style="float:left">
+    <form>
+        <div class="url-field form-group">
+            <label for="{{new-random 'url-field'}}">URL</label>
+            <input type="text" id="{{new-random 'url-field'}}"
+                   class="not-empty form-control input-form url"
+                   value="/v1/lists/utilities/geocode/locations">
+        </div>
+        <div class="httpMethod-field form-group">
+            <label for="{{new-random 'httpMethod-field'}}">httpMethod</label>
+            <select id="{{new-random 'httpMethod-field'}}"
+                    class="not-empty form-control input-form httpMethod">
+                <option value="GET">GET</option>
+                <option value="POST" selected="selected">POST</option>
+                <option value="PUT">PUT</option>
+                <option value="PATCH">PATCH</option>
+                <option value="DELETE">DELETE</option>
+                <option value="HEAD">HEAD</option>
+                <option value="CONNECT">CONNECT</option>
+                <option value="OPTIONS">OPTIONS</option>
+                <option value="TRACE">TRACE</option>
+            </select>
+
+        </div>
+        <div class="authTokenType-field form-group">
+            <label for="{{new-random 'authTokenType-field'}}">authTokenType</label>
+            <select id="{{new-random 'authTokenType-field'}}"
+                    class="not-empty form-control input-form authTokenType">
+                <option value="SESSIONLESS" selected="selected">SESSIONLESS</option>
+                <option value="SESSION">SESSION</option>
+            </select>
+        </div>
+        <div class="payload-field form-group">
+            <label for="{{new-random 'payload-field'}}">payload</label>
+            <textarea rows="10" cols="90" name="payload" id="{{new-random 'payload-field'}}"
+                      class="not-empty form-control input-form payload">
+          [
+            {
+              "GeoCodeRQ": {
+                "PlaceById": {
+                  "Id": "DFW",
+                  "BrowseCategory": {
+                    "name": "AIR"
+                  }
+                }
+              }
+            }
+          ]
+        </textarea>
+        </div>
+        <div class="headers-field form-group">
+            <label for="{{new-random 'headers-field'}}">headers</label>
+            <textarea rows="10" cols="10" name="headers" id="{{new-random 'headers-field'}}"
+                      class="not-empty form-control input-form headers">{ "Application-ID": "" }
+            </textarea>
+        </div>
+    </form>
+</div>
+
+<div style="float: right">
+    <label for="{{new-random 'response-field'}}">2SG Response</label>
+    <textarea rows="30" cols="90" name="response" id="{{new-random 'response-field'}}"
+              class="not-empty form-control input-form response">
+    </textarea>
+</div>

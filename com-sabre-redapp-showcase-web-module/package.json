@@ -1,0 +1,29 @@
+{
+  "name": "com-sabre-redapp-showcase-web-module-src",
+  "version": "1.0.0",
+  "description": "NGV module",
+  "author": {
+    "name": "Alex Meneghello",
+    "email": "",
+    "url": ""
+  },
+  "contributors": [],
+  "private": true,
+  "license": "SEE LICENSE IN LICENSE.txt",
+  "ngv": {
+    "buildDependencies": {
+      "sabre-ngv-app": "*",
+      "sabre-ngv-core": "*",
+      "sabre-ngv-commsg": "*",
+      "sabre-ngv-communication": "*",
+      "sabre-ngv-xp": "*",
+      "sabre-ngv-redAppSidePanel": "*",
+      "sabre-ngv-pos-cdm": "*",
+      "sabre-ngv-extensionPoints": "*",
+      "sabre-ngv-reservation": "*"
+    },
+    "concierge_version_min": "5.6.1",
+    "runtimeDependencies": {},
+    "testDependencies": {}
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "rules": {
+    "no-duplicate-variable": true,
+    "no-eval": true,
+    "no-internal-module": true,
+    "no-any": {
+      "severity": "warning",
+      "options": [true]
+    },
+    "no-unsafe-any": {
+      "severity": "warning",
+      "options": [true]
+    },
+    "typedef": {
+      "severity": "warning",
+      "options": [
+        true,
+        "call-signature",
+        "parameter",
+        "property-declaration",
+        "member-variable-declaration"
+      ]
+    }
+  }
+}

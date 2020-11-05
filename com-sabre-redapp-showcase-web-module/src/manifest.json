@@ -1,0 +1,33 @@
+{
+  "redappId": "12345",
+  "bundleSymbolicName": "com.sabre.redapp.showcase",
+  "bundleName": "Showcase RedApp",
+  "name": "com-sabre-redapp-showcase-web-module",
+  "contactDetails": {
+    "author": "Alex Meneghello",
+    "email": "alexandre.meneghello@sabre.com",
+    "phone": "5511998471370 (Wzapp)",
+    "companyName": "Sabre",
+    "contactPerson": "Alex Mene",
+    "website": "https://www.sabre.com"
+  },
+  "authorizations": [
+    {
+      "name": "com.sabre.edge.dynamo.cf.service.CommandMessageService",
+      "threshold": "30",
+      "metric": "tpm"
+    },
+    {
+      "name": "com.sabre.edge.cf.sws.SWS"
+    }
+  ],
+  "extensions": {
+    "dynamo.pnr.end:beforeEndCommand": [
+      {
+        "services": [
+          "BeforeEndHandler"
+        ]
+      }
+    ]
+  }
+}

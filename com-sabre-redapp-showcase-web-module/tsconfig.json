@@ -1,0 +1,40 @@
+{
+  "compilerOptions": {
+    "target": "ES5",
+    "module": "CommonJS",
+    "jsx": "react",
+    "lib": [
+      "ES2016",
+      "DOM"
+    ],
+    "outDir": "./build/debug/submodules",
+    "rootDir": "./src/code",
+    "baseUrl": "./node_modules",
+    "removeComments": false,
+    "stripInternal": true,
+    "preserveConstEnums": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "sourceMap": true,
+    "declaration": true,
+    "noFallthroughCasesInSwitch": true,
+    "pretty": true,
+    "strictNullChecks": false,
+    "noImplicitAny": false,
+    "noImplicitThis": false,
+    "noImplicitReturns": false,
+    "newLine": "LF",
+    "noEmitOnError": true,
+    "moduleResolution": "node",
+    "keyofStringsOnly": true
+  },
+  "include": [
+    "./src/code/**/*.ts",
+    "./src/code/**/*.tsx",
+    "./node_modules/*/module.d.ts",
+    "./node_modules/*/module-protected.d.ts"
+  ],
+  "exclude": [
+    "./node_modules/sabre-ngv-skeleton/**/*"
+  ]
+}
