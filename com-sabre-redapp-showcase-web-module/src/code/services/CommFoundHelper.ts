@@ -16,6 +16,8 @@ import { CommandMessageReservationRs } from "sabre-ngv-pos-cdm/reservation";
 
 import { PnrPublicService } from "sabre-ngv-app/app/services/impl/PnrPublicService";
 
+import { AgentProfileService } from "sabre-ngv-app/app/services/impl/AgentProfileService";
+
 /*
 * class CommFoundHelper, utiility methods to consume main Communication Foundation APIs
 *
@@ -30,11 +32,11 @@ export class CommFoundHelper extends AbstractService {
     * { "sabre-ngv-pos-cdm" : "*", "sabre-ngv-commsg": "*" }
     * main method :
     */
-    async sendCommandMessage(payload: string, showRq:boolean, showRs:boolean): Promise<CommandMessageBasicRs> {
+    sendCommandMessage(payload: string, showRq:boolean, showRs:boolean): Promise<CommandMessageBasicRs> {
         //get reference to the service
         const iCmdMsgService = getService(ICommandMessageService);
         //call send method with payload
-        return await iCmdMsgService.send({
+        return iCmdMsgService.send({
             rq: payload,
             showRq: showRq,
             showRs: showRs
@@ -49,7 +51,7 @@ export class CommFoundHelper extends AbstractService {
     * { "sabre-ngv-pos-cdm" : "*", "sabre-ngv-commsg": "*" }
     * main method :
     */
-    async sendSWSRequest(request: SoapRq): Promise<SoapRs> {
+    sendSWSRequest(request: SoapRq): Promise<SoapRs> {
         //get reference to the service
         const iSWSService = getService(ISoapApiService);
         //call send method with payload
@@ -65,11 +67,11 @@ export class CommFoundHelper extends AbstractService {
     * { "sabre-ngv-communication": "*" }
     * main method :
     */
-    async sendRestRequest(request: RestRq): Promise<RestResponse> {
+    sendRestRequest(request: RestRq): Promise<RestResponse> {
         //get reference to the service
         const iRestService = getService(RestApiService);
         //call send method with payload
-        return await iRestService.send(request);
+        return iRestService.send(request);
     }
 
     /*
@@ -78,44 +80,24 @@ export class CommFoundHelper extends AbstractService {
     * buildDependencies :
     * { "sabre-ngv-communication": "*" }
     */
-    async sendExternalHttpRequest(request: RestRq, options?, contentType?): Promise<RestResponse> {
+    sendExternalHttpRequest(request: RestRq, options?, contentType?): Promise<RestResponse> {
         //get reference to the service
         const iRestService = getService(RestApiService);
         //call send method with payload
-        return await iRestService.sendExternal(request, options, contentType);
+        return iRestService.sendExternal(request, options, contentType);
     }
 
     getReservation() : Promise<CommandMessageReservationRs> {
         return getService(IReservationService).getReservation();
     }
 
-    validateQC(markers:string[]) : Promise<boolean> {
-        return new Promise((resolve)=>{
-            this.getReservation().then((res)=>{
-                if(res && res.Status && res.Status.Success==true){
-                    console.log("theres something",res);
-                    if(!_.isUndefined(res.Data) && !_.isUndefined(res.Data.Remarks)){
-                        let rmks = res.Data.Remarks;
-                        let totMatches = 0;
-                        rmks.Remark.forEach((rmk)=>{
-                            if(markers.indexOf(rmk.Text)>=0)
-                                totMatches++;
-                        });
-                        if(totMatches>=markers.length){
-                            resolve(true);
-                        }
-                    }
-                    resolve(false);
-                }else{
-                    resolve(false);
-                }
-            })
-        })
-    }
 
     refreshTipSummary() : void {
-        //getService()
         getService(PnrPublicService).refreshData();
 
+    }
+
+    getAgentProfileService() : AgentProfileService {
+        return getService(AgentProfileService);
     }
 }

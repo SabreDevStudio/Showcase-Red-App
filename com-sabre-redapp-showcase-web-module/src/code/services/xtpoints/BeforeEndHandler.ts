@@ -13,7 +13,7 @@ export class BeforeEndHandler extends BeforeEndCommandExtension {
     static SERVICE_NAME = "BeforeEndHandler";
 
     private readAckStatus(res:ReservationRs,stringToSearch:string): boolean {
-      if(res && res.Remarks){
+      if(res && res.Remarks && res.Remarks.Remark){
           if(res.Remarks.Remark.find(rmk => rmk.Text.indexOf(stringToSearch) >= 0 )){
               return true;
           }else{
