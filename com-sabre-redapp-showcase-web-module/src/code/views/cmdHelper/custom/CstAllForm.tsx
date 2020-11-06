@@ -33,9 +33,6 @@ export class CstAllForm extends React.Component<CstAllFormProps,CstAllFormState>
         this.handleChange = this.handleChange.bind(this);
         this.handleExecute = this.handleExecute.bind(this);    
         this.handleAck = this.handleAck.bind(this);    
-
-        //        this.getPrettyParsedXML = this.getPrettyParsedXML.bind(this);
-//        this.handleCheck = this.handleCheck.bind(this);
     }
 
     private payloads = {
@@ -70,7 +67,6 @@ export class CstAllForm extends React.Component<CstAllFormProps,CstAllFormState>
     private readAckStatus(res:ReservationRs,stringToSearch:string): boolean {
         if(res && res.Remarks){
             if(res.Remarks.Remark.find(rmk => rmk.Text.indexOf(stringToSearch) >= 0 )){
-                console.log("foi");
                 return true;
             }else{
                 return false;
@@ -101,8 +97,6 @@ export class CstAllForm extends React.Component<CstAllFormProps,CstAllFormState>
                 }else{ 
                     getService(IAreaService).showBanner('Success',"PNR DATA ACKNOWLEDGE","Custom Helper");
                 }
-    
-                console.log("added remarks?",res);
             }
         );
 
