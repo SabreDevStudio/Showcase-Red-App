@@ -14,7 +14,6 @@ import { IAreaService } from "sabre-ngv-app/app/services/impl/IAreaService";
 
 
 const eventBus: AbstractModel = new AbstractModel();
-
 export interface OwnProps {
     currentView?: availableForms;
     availableViews?: availableForms;
@@ -37,6 +36,8 @@ export class ShellPnrComponent extends React.Component<OwnProps,OwnState> {
         this.closeLayer = this.closeLayer.bind(this);
         this.createPNR = this.createPNR.bind(this);
     }
+
+    cfHelper: CommFoundHelper = getService(CommFoundHelper);
 
     state : OwnState = {
         passengerName:"",
@@ -85,18 +86,78 @@ export class ShellPnrComponent extends React.Component<OwnProps,OwnState> {
         '                </PersonName>'+
         '            </CustomerInfo>'+
         '</TravelItineraryAddInfoRQ>';
+
+        var pl1 = this.cfHelper.getXmlPayload(
+            "PassengerDetailsRQ",
+            {
+                "MiscSegmentSellRQ":this.cfHelper.getXmlPayload("MiscSegmentSellRQ",{
+
+                }),
+                "SpecialReqDetails":this.cfHelper.getXmlPayload("SpecialReqDetails",{
+                    "AddRemarkRQ": this.cfHelper.getXmlPayload("AddRemarkRQ",{
+                        "Remark": ()=>{
+                            let strRmk = "";
+                            strRmk = strRmk.concat(this.cfHelper.getXmlPayload("FOP_Remark",{}))
+
+                            for(let i=0;i<10;i++){
+                                strRmk = strRmk.concat(this.cfHelper.getXmlPayload("Remark",{
+                                    "Text":"RMK"+i.toString()
+                                }));
+                            }
+                            return strRmk;
+                        }
+                    })
+
+                }),
+                "TravelItineraryAddInfoRQ": this.cfHelper.getXmlPayload("TravelItineraryAddInfoRQ",{
+                    "AgencyInfo": this.cfHelper.getXmlPayload("AgencyInfo",{
+                        "Address" : this.cfHelper.getXmlPayload("AddressSabre",null)
+                    }) ,
+                    "CustomerInfo": this.cfHelper.getXmlPayload("CustomerInfo",{
+                        "ContactNumbers": this.cfHelper.getXmlPayload("ContactNumbers",{
+                            "ContactNumber": this.cfHelper.getXmlPayload("ContactNumber",null)
+                        }),
+                        "CustomerIdentifier": this.cfHelper.getXmlPayload("CustomerIdentifier",{"CustomerIdentifier":"CST"+this.state.travelType+"2020"}),
+                        "Email":this.cfHelper.getXmlPayload("Email",null),
+                        "PersonName":this.cfHelper.getXmlPayload("PersonName",{
+                            "GivenName": this.state.passengerName,
+                            "Surname": this.state.passengerSurname
+                        })
+                    })
+                })
+            }
+        );
+        console.log(pl1);
         getService(CommFoundHelper).sendSWSRequest(
-            {action:"TravelItineraryAddInfoLLSRQ",
-            payload:pl,authTokenType:'SESSION'}
+            {action:"PassengerDetailsRQ",
+            payload:pl1,authTokenType:'SESSION'}
         ).then((res)=>{
-            getService(CommFoundHelper).refreshTipSummary();
-            this.closeLayer();
+            console.log("PassengerDetailsRS", res);
+
             if(res.errorCode!==undefined && res.errorCode!==null) {
                 getService(IAreaService).showBanner('Error',("ERROR CODE : ").concat(res.errorCode),"Custom Workflow");
+                getService(CommFoundHelper).refreshTipSummary();
+                this.closeLayer();
             }else{ 
-                getService(IAreaService).showBanner('Success',"PNR DATA CREATED","Custom Workflow");
+                console.log(this.cfHelper.getXmlPayload("SabreCommandLLSRQ",{
+                    "HostCommand": "FNBTS-95TB/205/11-TDBANK"
+                }));
+                getService(CommFoundHelper).sendSWSRequest(
+                    {
+                        action:"SabreCommandLLSRQ",
+                        payload: this.cfHelper.getXmlPayload("SabreCommandLLSRQ",{
+                            "HostCommand": "FNBTS-95TB/205/11-TDBANK"
+                        }),
+                        authTokenType:'SESSION'
+                    }
+                ).then((res)=>{
+                    getService(CommFoundHelper).refreshTipSummary();
+                    this.closeLayer();
+                    getService(IAreaService).showBanner('Success',"PNR DATA CREATED","Custom Workflow");
+
+                })
             }
-        });    
+        });   
     }
 
     renderButtons(): JSX.Element[] {

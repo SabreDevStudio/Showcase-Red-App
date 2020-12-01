@@ -1,0 +1,89 @@
+<payloads>
+
+    <PassengerDetailsRQ xmlns="http://services.sabre.com/sp/pd/v3_4" version="3.4.0" ignoreOnError="true" haltOnError="true">
+        <MiscSegmentSellRQ>
+            <MiscSegment DepartureDateTime="12-21" InsertAfter="0" NumberInParty="1" Status="GK" Type="OTH">
+                <OriginLocation LocationCode="FSG"/>
+                <Text>TEST</Text>
+                <VendorPrefs>
+                    <Airline Code="XX"/>
+                </VendorPrefs>
+            </MiscSegment>
+        </MiscSegmentSellRQ>
+        <SpecialReqDetails>
+            <AddRemarkRQ>
+                <RemarkInfo>
+                    <FOP_Remark>
+                        <CC_Info Suppress="false">
+                            <PaymentCard Code="VI" ExpireDate="2021-12" Number="4444333322221111" />
+                        </CC_Info>
+                    </FOP_Remark>
+                    <Remark Type="General">
+                        <Text>RMK0</Text>
+                    </Remark>
+                    <Remark Type="General">
+                        <Text>RMK1</Text>
+                    </Remark>
+                    <Remark Type="General">
+                        <Text>RMK2</Text>
+                    </Remark>
+                    <Remark Type="General">
+                        <Text>RMK3</Text>
+                    </Remark>
+                    <Remark Type="General">
+                        <Text>RMK4</Text>
+                    </Remark>
+                    <Remark Type="General">
+                        <Text>RMK5</Text>
+                    </Remark>
+                    <Remark Type="General">
+                        <Text>RMK6</Text>
+                    </Remark>
+                    <Remark Type="General">
+                        <Text>RMK7</Text>
+                    </Remark>
+                    <Remark Type="General">
+                        <Text>RMK8</Text>
+                    </Remark>
+                    <Remark Type="General">
+                        <Text>RMK9</Text>
+                    </Remark>
+                </RemarkInfo>
+            </AddRemarkRQ>
+        </SpecialReqDetails>
+        <TravelItineraryAddInfoRQ>
+            <AgencyInfo>
+                <Address>
+                    <AddressLine>SABRE TRAVEL</AddressLine>
+                    <CityName>SOUTHLAKE</CityName>
+                    <CountryCode>US</CountryCode>
+                    <PostalCode>76092</PostalCode>
+                    <StateCountyProv StateCode="TX"/>
+                    <StreetNmbr>3150 SABRE DRIVE</StreetNmbr>
+                </Address>
+            </AgencyInfo>
+            <CustomerInfo>
+                <ContactNumbers>
+                    <ContactNumber LocationCode="FSG" NameNumber="1.1" Phone="817-555-1212" PhoneUseType="H"/>
+                </ContactNumbers>
+                <CustomerIdentifier>CSTLEI2020</CustomerIdentifier>
+                <Email Address="WEBSERVICES.SUPPORT@SABRE.COM" LanguageOverride="O" NameNumber="1.1" ShortText="ABC123" Type="CC"/>
+                <PersonName>
+                    <GivenName>MARGA</GivenName>
+                    <Surname>RETH</Surname>
+                </PersonName>
+            </CustomerInfo>
+        </TravelItineraryAddInfoRQ>
+
+
+    </PassengerDetailsRQ>
+
+    <SabreCommandLLSRQ xmlns="http://webservices.sabre.com/sabreXML/2003/07"
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" TimeStamp="2014-03-04T14:00:00" Version="1.8.1">
+        <Request Output="SCREEN" CDATA="true">
+            <HostCommand>FNBTS-95TB/205/11-TDBANK</HostCommand>
+        </Request>
+    </SabreCommandLLSRQ>
+
+</payloads>
