@@ -40,11 +40,9 @@ export class Main extends Module {
     }
 
     private showPNRShellPopup():void {
-        //console.log("getLayer",getService(LayerService).getLayers());
         getService(LayerService).showOnLayer(ShellPnrComponent,{display:'areaView',position:33});
     }
     private showAfterSellPopup():void {
-        //console.log("getLayer",getService(LayerService).getLayers());
         getService(LayerService).showOnLayer(AfterSellPopover,{display:'areaView',position:33});
     }
 
@@ -76,24 +74,3 @@ export class Main extends Module {
         return entries.filter((entry,idx, array)=>{return availableLocations.indexOf(entry.location)>=0}).length>0;
     }
 }
-/*
-    //Thank you !
-    do.please() {
-        
-        go.downloadSDK(
-            https://developer.sabre.com/sdks/travel-agency/sabre-red-360
-        ).then(
-            (Concierge) => {
-                git.clone(
-                    https://github.com/SabreDevStudio/Showcase-Red-App
-                ).then({
-                    await go.hackFun()
-                })
-            }).then(
-                (feedback) => {
-                    do.letUsKnow("together we create better products")
-                }
-            )
-        )
-    }
-*/
