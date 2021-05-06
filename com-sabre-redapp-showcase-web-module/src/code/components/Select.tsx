@@ -7,9 +7,35 @@ export interface SelectProps {
     value?:any;
     placeHolder?:string;
     handleChange?:(e) => void;
-    options : Array<{key:string,value:string}>;
+    options?: any;
+    fetchOptions? : Promise<any>;
 }
-export class Select extends React.Component<SelectProps,{}> {
+export class Select extends React.Component<SelectProps,{options:[{key:string,value:string}]}> {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            options:null
+        }
+    }
+
+    componentWillMount() {
+        console.log("propos",this.props.fetchOptions,this.props.options);
+        if(!_.isUndefined(this.props.fetchOptions)){
+            console.log("has fecthoptions");
+
+            this.props.fetchOptions.then(res=>{
+                console.log("thenres",res)
+                this.setState({options:res});
+            })
+        }
+        if(!_.isUndefined(this.props.options)){
+            console.log("has options");
+            this.setState({options:this.props.options});
+            
+        }
+
+    }
 
     render(): JSX.Element {
         return (
@@ -23,7 +49,7 @@ export class Select extends React.Component<SelectProps,{}> {
                 className="form-control" 
             >
                 <option value="" disabled>{this.props.placeHolder}</option>
-                {this.props.options.map(opt=>{
+                {this.state.options && this.state.options.map(opt=>{
                     return (
                         <option
                             key={opt.key}

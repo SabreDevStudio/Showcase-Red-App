@@ -1,0 +1,4 @@
+{
+    "typesOfTravel":[{"key":"BIZ","value":"Business"},{"key":"LEI","value":"Leisure"},{"key":"OTH","value":"Other"}],
+    "soapPayloads":[{"key":"SabreCommandLLSRQ","value":"Sabre Commands"},{"key":"GetReservationRQ","value":"Get Reservation"},{"key":"QueueAccessLLSRQ","value":"Queue Access"}]
+}

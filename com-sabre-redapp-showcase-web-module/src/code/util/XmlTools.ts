@@ -38,7 +38,7 @@ export class XmlTools {
             nsRes = eva.createNSResolver(domDocument.documentElement);
         }
         console.log("defNs",defNs, nsRes);
-        return eva.evaluate(xpathExpression,domDocument.documentElement,nsRes);
+        return eva.evaluate(xpathExpression,domDocument.documentElement,nsRes,XPathResult.ANY_TYPE,null);
     }
 
     stringToXml(strXML:string): Document {

@@ -1,4 +1,5 @@
 import * as React from "react";
+import { AutoComplete } from "../../../components/AutoComplete";
 import { Button } from "../../../components/Button";
 import { Input } from "../../../components/Input";
 import { InputGroup } from "../../../components/InputGroup";
@@ -6,6 +7,7 @@ import { Payload } from "../../../components/Payload";
 import { PopoverForm } from "../../../components/PopoverForm";
 import { getService } from "../../../Context";
 import { CommFoundHelper } from "../../../services/CommFoundHelper";
+import { Variables } from "../../../services/Variables";
 import { XmlTools } from "../../../util/XmlTools";
 
 export interface SOAPServicePopoverProps {
@@ -45,7 +47,11 @@ export class SOAPServicePopover extends React.Component<SOAPServicePopoverProps,
         this.handleExecute = this.handleExecute.bind(this);
         this.getPrettyParsedXML = this.getPrettyParsedXML.bind(this);
         this.handleCheck = this.handleCheck.bind(this);
+        this.getSearchData = this.getSearchData.bind(this);
+        this.handleSelect = this.handleSelect.bind(this);
     }
+
+    private actions = [{key:"1",value:"first"},{key:"2",value:"second"},{key:"3",value:"third"}]
     private payloads = {
         "QueueAccessLLSRQ" : 
         '<QueueAccessRQ Version="2.0.9" xmlns="http://webservices.sabre.com/sabreXML/2011/10" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">'
@@ -74,15 +80,18 @@ export class SOAPServicePopover extends React.Component<SOAPServicePopoverProps,
         shouldParse:false
     }
     handleChange(e) : void {
-        if(e.target.name==="actionCode" && this.payloads[e.target.value]!=null){
-            this.setState({[e.target.name]:e.target.value,payload:new XmlTools().prettifyXml(this.payloads[e.target.value])});
-        }else{
-            this.setState({[e.target.name]:e.target.value});
-        }
+        //if(e.target.name==="actionCode" && this.payloads[e.target.value]!=null){
+        //}else{
+        this.setState({[e.target.name]:e.target.value});
+        //}
     }
     handleCheck(e?) : void {
         console.log("checkou",e,e.target.checked);
         this.setState({shouldParse:e.target.checked});
+    }
+    handleSelect(e):void {
+        console.log("selected autocomplete item",e);
+        this.setState({actionCode:e.key,payload:new XmlTools().prettifyXml(this.payloads[e.key])});
     }
     handleExecute() :void {
         console.log("will execute",this.state.actionCode,this.state.payload);
@@ -110,9 +119,22 @@ export class SOAPServicePopover extends React.Component<SOAPServicePopoverProps,
                     let res = xm.runXPath(this.state.rsfilter,xm.stringToXml(this.state.response))
                     var node = null;
                     var resHTML = "<XPathResult>";
-                    while(node = res.iterateNext()) {
-                        resHTML = resHTML.concat(node.outerHTML);
-                        //console.log("ite",node, node.localName, node.outerHTML);
+                    console.log("resXPath",res);
+                    if(res){
+
+                        if(res.resultType==4){
+                            while(node = res.iterateNext()) {
+                                console.log("ite",node);
+                                if(node.nodeType==1){
+                                    resHTML = resHTML.concat(node.outerHTML);
+                                }else{
+                                    resHTML = resHTML.concat(node.nodeValue);
+                                }
+                                //console.log("ite",node, node.localName, node.outerHTML);
+                            }
+                        }else{
+                            resHTML = resHTML.concat(res.stringValue);
+                        }
                     }
                     resHTML = resHTML.concat("</XPathResult>");
                     parsedRs = resHTML;
@@ -132,15 +154,39 @@ export class SOAPServicePopover extends React.Component<SOAPServicePopoverProps,
         return rs;
     }
 
+    getSearchData(filter): Promise<any>{
+        return new Promise((resolve,reject)=>{
+            resolve(this.actions.filter((elm)=>{return elm.key.toString().concat(" ").concat(elm.value.toString()).indexOf(filter)>=0?true:false}));
+        });
+    }
+
     renderButtons(): JSX.Element[] {
         return(
             [<Button name="btnCancel" type="cancel" title="Cancel" handleClick={this.props.handleClose}/>,<Button name="btnExecute" type="primary" title="Execute" handleClick={this.handleExecute}/>]
         );
     }
+
+    getData(filter):Promise<Array<{key:string,value:string}>> {
+        
+        return new Promise((resolve,reject)=>{
+            getService(Variables).getFromJson("soapPayloads")
+            .then((res)=>{
+                const filtered = res.filter(
+                    (item) => item.value.toLowerCase().indexOf(filter.toLowerCase()) > -1
+                );
+                resolve(filtered);
+            })
+            .catch((err)=>{
+                reject(err)
+            })
+        });
+    }
+
     render(): JSX.Element {
         return (
             <PopoverForm name="" title="" content={null} buttons={this.renderButtons()} navigation={this.props.navigation}>
-                <Input type="text" name="actionCode" title="Action Code" placeHolder="enter Sabre SOAP API Action Code"  value={this.state.actionCode} handleChange={this.handleChange}/>
+                <AutoComplete fetchOptions={this.getData} handleSelect={this.handleSelect} name="srchAction" title="Action Code" placeHolder="search Sabre SOAP API service payload..." />
+
                 <Input type="textarea" rows={10} name="payload" title="XML Request" placeHolder="enter Service Request payload (XML content)"  value={this.state.payload} handleChange={this.handleChange}/>
                 <Payload type="xml" name="plData" title="XML Response" value={this.getPrettyParsedXML()} />
                 <InputGroup componentType="check" componentValue={this.state.shouldParse} groupPosition="prepend" name="rsfilter" title="Parse response" placeHolder="enter a XPATH expression" value={this.state.rsfilter} handleChange={this.handleChange} handleClick={this.handleCheck} />

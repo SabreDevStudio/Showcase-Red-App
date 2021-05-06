@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Button } from "../../../components/Button";
+import { Checkbox } from "../../../components/Checkbox";
 import { Input } from "../../../components/Input";
 import { InputGroup } from "../../../components/InputGroup";
 import { Payload } from "../../../components/Payload";
@@ -23,6 +24,7 @@ export interface RESTServicePopoverState {
     headers:string;
     response:any;
     shouldParse:boolean;
+    isExternal:boolean;
 }
 
 export class RESTServicePopover extends React.Component<RESTServicePopoverProps,RESTServicePopoverState> {
@@ -32,6 +34,7 @@ export class RESTServicePopover extends React.Component<RESTServicePopoverProps,
         this.handleExecute = this.handleExecute.bind(this);
  //       this.getPrettyParsedXML = this.getPrettyParsedXML.bind(this);
         this.handleCheck = this.handleCheck.bind(this);
+        this.handleIsExt = this.handleIsExt.bind(this);
     }
     private payloads = {
         "/v1/lists/utilities/geocode/locations" : 
@@ -48,7 +51,8 @@ export class RESTServicePopover extends React.Component<RESTServicePopoverProps,
         payload:null,
         headers:null,
         response:null,
-        shouldParse:false
+        shouldParse:false,
+        isExternal:false
     }
     handleChange(e) : void {
         if(e.target.name==="url" && this.payloads[e.target.value]!=null){
@@ -60,22 +64,37 @@ export class RESTServicePopover extends React.Component<RESTServicePopoverProps,
     handleCheck(e?) : void {
         this.setState({shouldParse:e.target.checked});
     }
+    handleIsExt(e) : void {
+        this.setState({isExternal:e.target.checked});
+    }
     handleExecute() :void {
-        getService(CommFoundHelper).sendRestRequest({
-            httpMethod: this.state.httpMethod,
-            url: this.state.url,
-            authTokenType: this.state.authTokenType,
-            payload: this.state.payload,
-            headers: this.state.headers
-        }).then(
-            (res)=>{
-                if(res && res.body){
-                    this.setState({response:res.body});                        
-                }else{
-                    this.setState({response:res});
+        if(!this.state.isExternal){
+            getService(CommFoundHelper).sendRestRequest({
+                httpMethod: this.state.httpMethod,
+                url: this.state.url,
+                authTokenType: this.state.authTokenType,
+                payload: this.state.payload,
+                headers: this.state.headers
+            }).then(
+                (res)=>{
+                    if(res && res.body){
+                        this.setState({response:res.body});                        
+                    }else{
+                        this.setState({response:res});
+                    }
                 }
-            }
-        );
+            );
+        }else{
+            getService(CommFoundHelper).sendExternalHttpRequest({
+                httpMethod:this.state.httpMethod,
+                url: this.state.url,
+                authTokenType: this.state.authTokenType,
+                payload: this.state.payload,
+                headers: this.state.headers
+            }).then(
+
+            )
+        }
     }
 
     renderButtons(): JSX.Element[] {
@@ -90,6 +109,7 @@ export class RESTServicePopover extends React.Component<RESTServicePopoverProps,
                 <Select name="httpMethod" title="Method" value={this.state.httpMethod} handleChange={this.handleChange} placeHolder="Select an option" options={[{"key":"GET","value":"Get"},{"key":"POST","value":"Post"}]}/>
                 <Input type="textarea" rows={10} name="payload" title="JSON Request" placeHolder="enter Service Request payload (XML content)"  value={this.state.payload} handleChange={this.handleChange}/>
                 <Payload type="json" name="plData" title="JSON Response" value={JSON.stringify(this.state.response)} />
+                <Checkbox name="isExt" title="external" handleChange={this.handleIsExt} value={this.state.isExternal} placeHolder="" />
             </PopoverForm>
         );
     }

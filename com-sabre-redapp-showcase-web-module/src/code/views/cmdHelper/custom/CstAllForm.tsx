@@ -87,7 +87,8 @@ export class CstAllForm extends React.Component<CstAllFormProps,CstAllFormState>
         for(let i=0;i<100;i++){
             hundredRmks = hundredRmks.concat(this.payloads.Remark.replace("{Text}","REMARK".concat(i.toString())))
         }
-        let pl = this.payloads.AddRemarkRQ.replace("{Remarks}",this.payloads.Remark.replace("{Text}","ACK1"+this.state.travelType).concat(hundredRmks));
+       //let pl = this.payloads.AddRemarkRQ.replace("{Remarks}",this.payloads.Remark.replace("{Text}","ACK1"+this.state.travelType).concat(hundredRmks));
+       let pl = this.payloads.AddRemarkRQ.replace("{Remarks}",this.payloads.Remark.replace("{Text}","ACK1"+this.state.travelType));
         getService(CommFoundHelper).sendSWSRequest(
             {action:"AddRemarkLLSRQ",
             payload:pl,

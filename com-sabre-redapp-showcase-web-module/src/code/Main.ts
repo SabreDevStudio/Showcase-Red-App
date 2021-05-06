@@ -14,6 +14,7 @@ import CommFoundButton from './views/cmdHelper/gdsData/CommFoundButton';
 import { ShellPnrComponent } from './views/customWF/ShellPnrComponent';
 import { AfterSellPopover } from './views/customWF/AfterSellPopover';
 import { BeforeEndHandler } from './services/xtpoints/BeforeEndHandler';
+import { Variables } from './services/Variables';
 
 export class Main extends Module {
 
@@ -25,11 +26,12 @@ export class Main extends Module {
         //services to back the Module operation
         registerService(CommFoundHelper);
         registerService(BeforeEndHandler);
+        registerService(Variables);
 
         //side panel contributions
         const sidePanelConfig = new RedAppSidePanelConfig([
-            new RedAppSidePanelButton('CREATE A PNR', 'side-panel-button', () => this.showPNRShellPopup()),
-            new RedAppSidePanelButton('AFTER SELL', 'side-panel-button', () => this.showAfterSellPopup()),
+            new RedAppSidePanelButton('CREATE A PNR', 'btn btn-secondary side-panel-button', () => this.showPNRShellPopup()),
+            new RedAppSidePanelButton('AFTER SELL', 'btn btn-secondary side-panel-button', () => this.showAfterSellPopup()),
         ]);
         getService(ExtensionPointService).addConfig("redAppSidePanel", sidePanelConfig);
 

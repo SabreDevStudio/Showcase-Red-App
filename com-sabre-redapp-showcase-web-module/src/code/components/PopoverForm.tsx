@@ -17,6 +17,13 @@ export class PopoverForm extends React.Component<PopoverFormProps,{}> {
     }
 
     render(): JSX.Element {
+        /* {
+            <div class="popover {{parentPopoverClass}}" role="tooltip">
+            <div class="arrow"></div>
+            <h3 class="popover-title"></h3>
+            <div class="popover-content {{extraContentClass}}"></div>
+            </div>
+        }*/
         return (
         <div className='com-sabre-redapp-showcase-web-module popover-wrapper'>
             {this.props.navigation}
@@ -31,5 +38,7 @@ export class PopoverForm extends React.Component<PopoverFormProps,{}> {
         </div>
         );
     }
+
+
 
 }

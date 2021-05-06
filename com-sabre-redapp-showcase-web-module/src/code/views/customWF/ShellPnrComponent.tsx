@@ -11,6 +11,7 @@ import { getService } from "../../Context";
 import { CommFoundHelper } from "../../services/CommFoundHelper";
 import {LayerService} from "sabre-ngv-core/services/LayerService";
 import { IAreaService } from "sabre-ngv-app/app/services/impl/IAreaService";
+import { Variables } from "../../services/Variables";
 
 
 const eventBus: AbstractModel = new AbstractModel();
@@ -35,6 +36,7 @@ export class ShellPnrComponent extends React.Component<OwnProps,OwnState> {
         this.renderButtons = this.renderButtons.bind(this);
         this.closeLayer = this.closeLayer.bind(this);
         this.createPNR = this.createPNR.bind(this);
+        this.getData = this.getData.bind(this);
     }
 
     cfHelper: CommFoundHelper = getService(CommFoundHelper);
@@ -61,6 +63,9 @@ export class ShellPnrComponent extends React.Component<OwnProps,OwnState> {
         var v = e.target.value;
         this.setState({[a]: v});
         console.log("handle change",e,a,v,this.state);
+        getService(Variables).setGlobal(a,v);
+        console.log("global",getService(Variables).getGlobal(a));
+
         
         
 
@@ -167,13 +172,24 @@ export class ShellPnrComponent extends React.Component<OwnProps,OwnState> {
         ]);
     }
 
+     getData():any{
+        // (async()=>{
+        let res=[];
+        const fetchData = async () => {
+            res = await getService(Variables).getFromJson("typesOfTravel");
+        }
+        fetchData();
+        console.log("will rerturn",res);
+        return res;
+    }
+
     render() : JSX.Element {
          return (
             <ModalForm name="modalF" title="CREATE PNR" buttons={this.renderButtons()} content={null}>
                 <div className="form-group">
                     <Input type="text" name="passengerName" title="Name" value={this.state.passengerName} placeHolder="enter passenger name" handleChange={this.handleChange} />
                     <Input type="text" name="passengerSurname" title="Surname" value={this.state.passengerSurname} placeHolder="enter passenger surname" handleChange={this.handleChange} />
-                    <Select name="travelType" title="Travel Type" value={this.state.travelType} handleChange={this.handleChange} placeHolder="Select on option" options={[{"key":"BIZ","value":"Business"},{"key":"LEI","value":"Leisure"},{"key":"OTH","value":"Other"}]}/>
+                    <Select name="travelType" title="Travel Type" value={this.state.travelType} handleChange={this.handleChange} placeHolder="Select on option" fetchOptions={getService(Variables).getFromJson("typesOfTravel")}/>
                 </div>
             </ModalForm>
         );
