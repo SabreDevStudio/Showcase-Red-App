@@ -27,7 +27,7 @@ export class PopoverForm extends React.Component<PopoverFormProps,{}> {
         return (
         <div className='com-sabre-redapp-showcase-web-module popover-wrapper'>
             {this.props.navigation}
-            <div className="content content-scroll">
+            <div className="content content-scroll" style={{maxWidth:'80%'}}>
                 {this.props.children}
             </div>
             <div className="tab-action-buttons">

@@ -7,7 +7,7 @@
       "ES2016",
       "DOM"
     ],
-    "outDir": "./build/debug/submodules",
+    "outDir": "./build/ide/ts",
     "rootDir": "./src/code",
     "baseUrl": "./node_modules",
     "removeComments": false,
@@ -16,6 +16,7 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "sourceMap": true,
+    "inlineSources": true,
     "declaration": true,
     "noFallthroughCasesInSwitch": true,
     "pretty": true,
@@ -26,7 +27,9 @@
     "newLine": "LF",
     "noEmitOnError": true,
     "moduleResolution": "node",
-    "keyofStringsOnly": true
+    "keyofStringsOnly": true,
+    "preserveSymlinks": true,
+    "paths": {}
   },
   "include": [
     "./src/code/**/*.ts",

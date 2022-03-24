@@ -115,7 +115,7 @@ export class CstAllForm extends React.Component<CstAllFormProps,CstAllFormState>
     render(): JSX.Element {
         return (
             <PopoverForm name="" title="" content={null} buttons={this.renderButtons()} navigation={this.props.navigation}>
-                <Payload type="json" name="plData" title="Reservation data" value={JSON.stringify(this.props.pnrData.Passengers)} />
+                <Payload type="json" name="plData" title="Reservation data" value={JSON.stringify(this.props.pnrData.Passengers,undefined,4)} />
                 <Checkbox name="ackStage" title="acknowledge information" handleChange={this.handleAck} value={this.state.ackStage} placeHolder="" disabled={this.readAckStatus(this.props.pnrData,"ACK1")} />
             </PopoverForm>
         );

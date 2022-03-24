@@ -116,7 +116,7 @@ export class CommFoundHelper extends AbstractService {
 
         "MiscSegmentSellRQ":
         '<MiscSegmentSellRQ>'+
-        '<MiscSegment DepartureDateTime="12-21" InsertAfter="0" NumberInParty="1" Status="GK" Type="OTH">'+
+        '<MiscSegment DepartureDateTime="12-22" InsertAfter="0" NumberInParty="1" Status="GK" Type="OTH">'+
         '<OriginLocation LocationCode="FSG"/>'+
         '<Text>TEST</Text>'+
         '<VendorPrefs>'+
@@ -128,7 +128,7 @@ export class CommFoundHelper extends AbstractService {
         "FOP_Remark":
         '<FOP_Remark>'+
         '<CC_Info Suppress="false">'+
-        '<PaymentCard Code="VI" ExpireDate="2021-12" Number="4444333322221111" />'+
+        '<PaymentCard Code="VI" ExpireDate="2024-12" Number="4444333322221111" />'+
         '</CC_Info>'+
         '</FOP_Remark>',
 

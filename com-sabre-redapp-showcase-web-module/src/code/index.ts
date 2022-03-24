@@ -1,6 +1,5 @@
 
 /*************************************/
-/* Version: 5.8.3                    */
 /* Auto-generated file.              */
 /* Do not modify it.                 */
 /* You may remove it.                */
