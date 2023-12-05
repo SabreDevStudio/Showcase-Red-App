@@ -10,7 +10,7 @@ import { CommandMessageReservationRs, ReservationRs } from "sabre-ngv-pos-cdm/re
 
 
 export class BeforeEndHandler extends BeforeEndCommandExtension {
-    static SERVICE_NAME = "BeforeEndHandler";
+    static SERVICE_NAME = "com-sabre-redapp-showcase-web-module-BeforeEndHandler";
 
     private readAckStatus(res:ReservationRs,stringToSearch:string): boolean {
       if(res && res.Remarks && res.Remarks.Remark){

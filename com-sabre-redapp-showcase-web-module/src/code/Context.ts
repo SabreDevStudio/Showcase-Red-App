@@ -6,7 +6,7 @@
 /* You may commit it.                */
 /* You may push it.                  */
 /* Remove it if module name changed. */
-/* tslint:disable                    */
+/* eslint:disable                    */
 /*************************************/
 
 import {IModuleContext} from "sabre-ngv-core/modules/IModuleContext";
